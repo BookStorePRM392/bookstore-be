@@ -67,7 +67,8 @@ namespace API.Database
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Carts");
                 });
@@ -258,8 +259,8 @@ namespace API.Database
             modelBuilder.Entity("API.Model.Entities.Cart", b =>
                 {
                     b.HasOne("API.Model.Entities.User", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId")
+                        .WithOne("Cart")
+                        .HasForeignKey("API.Model.Entities.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -384,9 +385,10 @@ namespace API.Database
                 {
                     b.Navigation("Books");
 
-                    b.Navigation("CartItems");
+                    b.Navigation("Cart")
+                        .IsRequired();
 
-                    b.Navigation("Carts");
+                    b.Navigation("CartItems");
 
                     b.Navigation("OrderItems");
 

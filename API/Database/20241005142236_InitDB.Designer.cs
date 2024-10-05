@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Database
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241005113820_InitDB")]
+    [Migration("20241005142236_InitDB")]
     partial class InitDB
     {
         /// <inheritdoc />
@@ -70,7 +70,8 @@ namespace API.Database
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Carts");
                 });
@@ -261,8 +262,8 @@ namespace API.Database
             modelBuilder.Entity("API.Model.Entities.Cart", b =>
                 {
                     b.HasOne("API.Model.Entities.User", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId")
+                        .WithOne("Cart")
+                        .HasForeignKey("API.Model.Entities.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -387,9 +388,10 @@ namespace API.Database
                 {
                     b.Navigation("Books");
 
-                    b.Navigation("CartItems");
+                    b.Navigation("Cart")
+                        .IsRequired();
 
-                    b.Navigation("Carts");
+                    b.Navigation("CartItems");
 
                     b.Navigation("OrderItems");
 

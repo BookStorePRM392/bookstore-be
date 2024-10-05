@@ -16,7 +16,7 @@ public class User : BaseEntity
     public List<Order> Orders { get; set; } = [];
     public List<Transaction> Transactions { get; set; } = [];
     public List<Ship> Ships { get; set; } = [];
-    public List<Cart> Carts { get; set; } = [];
+    public Cart Cart { get; set; } = null!;
     public List<Book> Books { get; set; } = [];
     public List<CartItem> CartItems { get; set; } = [];
     public List<OrderItem> OrderItems { get; set; } = [];
