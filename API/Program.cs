@@ -85,6 +85,8 @@ if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
   app.UseSwaggerUI();
+  app.MigrateDatabase<ApplicationDbContext>(async (_, _) => await Task.Delay(0));
+
 }
 app.UseHttpsRedirection();
 app.UseMiddleware<AuthMiddleware>();
