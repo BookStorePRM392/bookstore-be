@@ -20,4 +20,8 @@ public class User : BaseEntity
     public List<Book> Books { get; set; } = [];
     public List<CartItem> CartItems { get; set; } = [];
     public List<OrderItem> OrderItems { get; set; } = [];
+
+    public bool IsManager() => Role == UserRoleEnum.Manager;
+    public bool IsShipper() => Role == UserRoleEnum.Shipper;
+    public bool IsStaff() => Role == UserRoleEnum.Staff;
 }

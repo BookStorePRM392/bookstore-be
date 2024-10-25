@@ -9,12 +9,12 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Orders.Queries;
 
-public class GetOrderHistory
+public class GetOrders
 {
     public record Query(
-            int PageIndex,
-            int PageSize
-        ) : IRequest<Result<Response>>;
+        int PageIndex,
+        int PageSize
+    ) : IRequest<Result<Response>>;
 
     public record Response(
         IEnumerable<OrderDetail> Orders,
@@ -35,11 +35,10 @@ public class GetOrderHistory
     {
         public async Task<Result<Response>> Handle(Query request, CancellationToken cancellationToken)
         {
+            if (!currentUser.User!.IsManager()) return Result.Forbidden();
             IQueryable<Order> query = context.Orders
                 .AsNoTracking()
-                .OrderByDescending(x => x.CreatedAt)
-                .Include(x => x.User)
-                .Where(x => x.User.Id.Equals(currentUser.User!.Id));
+                .OrderByDescending(x => x.CreatedAt);
 
             int count = await query.CountAsync(cancellationToken);
 
@@ -61,12 +60,13 @@ public class GetOrderHistory
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("orders/history", async (ISender sender, int pageIndex = 1, int pageSize = 10) =>
+            app.MapGet("orders", async (ISender sender, int pageIndex = 1, int pageSize = 10) =>
             {
                 Result<Response> result = await sender.Send(new Query(pageIndex, pageSize));
                 return Results.Ok(result);
-            }).WithTags("Orders")
-            .WithMetadata(new SwaggerOperationAttribute("Get order history"))
+            })
+            .WithTags("Orders")
+            .WithMetadata(new SwaggerOperationAttribute("Get orders"))
             .RequireAuthorization();
         }
     }

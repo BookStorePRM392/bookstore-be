@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  run:
+    dir: ./API
+    cmds:
+      # run http server
+      - dotnet run

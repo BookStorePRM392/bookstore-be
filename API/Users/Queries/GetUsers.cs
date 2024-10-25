@@ -56,7 +56,8 @@ public class GetUsers
                 Result<Response> result = await sender.Send(new Query(pageIndex, pageSize));
                 return Results.Ok(result);
             }).WithTags("Users")
-            .WithMetadata(new SwaggerOperationAttribute("Get users"));
+            .WithMetadata(new SwaggerOperationAttribute("Get users"))
+            .RequireAuthorization();
         }
     }
 }

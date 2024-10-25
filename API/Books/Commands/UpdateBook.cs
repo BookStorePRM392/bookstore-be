@@ -38,13 +38,14 @@ public class UpdateBook
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPut("/books/{id}", async (ISender sender, Guid id, string Title, string Description, string Author, decimal Price) =>
+            app.MapPut("/books/{id}", async (ISender sender, Guid id, string title, string description, string author, decimal price) =>
             {
-                Result result = await sender.Send(new Command(id, Title, Description, Author, Price));
+                Result result = await sender.Send(new Command(id, title, description, author, price));
                 return Results.NoContent();
             })
             .WithTags("Books")
-            .WithMetadata(new SwaggerOperationAttribute("Update book by id"));
+            .WithMetadata(new SwaggerOperationAttribute("Update book by id"))
+            .RequireAuthorization();
         }
     }
 }

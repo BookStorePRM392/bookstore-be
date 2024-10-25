@@ -14,4 +14,5 @@ public class Order : BaseEntity
     public ICollection<OrderItem> OrderItems { get; set; } = null!;
     public Transaction Transaction { get; set; } = null!;
     public Ship Ship { get; set; } = null!;
+    public object Status { get; internal set; }
 }

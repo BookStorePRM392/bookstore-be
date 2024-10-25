@@ -29,12 +29,14 @@ public class UpdateCart
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPut("/carts/{BookId:int}/{Quantity:int}", async (ISender sender, Guid BookId, int Quantity) =>
+            app.MapPut("/carts/{BookId:int}/{Quantity:int}", async (ISender sender, Guid bookId, int quantity) =>
             {
-                Result result = await sender.Send(new Command(BookId, Quantity));
+                Result result = await sender.Send(new Command(bookId, quantity));
                 if (!result.IsSuccess) return Results.BadRequest(result);
                 return Results.NoContent();
-            }).WithTags("Carts").WithMetadata(new SwaggerOperationAttribute("Update cart quantity"));
+            }).WithTags("Carts")
+            .WithMetadata(new SwaggerOperationAttribute("Update cart quantity"))
+            .RequireAuthorization();
         }
     }
 }
