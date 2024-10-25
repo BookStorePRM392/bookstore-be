@@ -42,7 +42,8 @@ public class DeleteBook
                 return Results.NoContent();
             })
             .WithTags("Books")
-            .WithMetadata(new SwaggerOperationAttribute("Delete book by id"));
+            .WithMetadata(new SwaggerOperationAttribute("Delete book by id"))
+            .RequireAuthorization();
         }
     }
 }

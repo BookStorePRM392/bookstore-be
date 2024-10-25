@@ -55,7 +55,8 @@ public class AddToCart
                 return Results.Ok(result);
             })
             .WithTags("Carts")
-            .WithMetadata(new SwaggerOperationAttribute("Add book to cart"));
+            .WithMetadata(new SwaggerOperationAttribute("Add book to cart"))
+            .RequireAuthorization();
         }
     }
 }
