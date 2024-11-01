@@ -5,6 +5,7 @@ using Ardalis.Result;
 using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 using IResult = Microsoft.AspNetCore.Http.IResult;
 
 namespace API.Orders.Commands;
@@ -15,7 +16,10 @@ public class Checkout
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            throw new NotImplementedException();
+            app.MapPost("orders/checkout", Handle)
+                .WithTags("Orders")
+                .RequireAuthorization()
+                .WithMetadata(new SwaggerOperationAttribute("Checkout order"));
         }
         public async Task<IResult> Handle(ISender sender)
         {
