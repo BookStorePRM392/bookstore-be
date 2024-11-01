@@ -54,6 +54,7 @@ public class SignUp
             app.MapPost("/users/signup", async (ISender sender, string Username, string Email, string Password, string Address, string Phone) =>
             {
                 Result result = await sender.Send(new Command(Username, Email, Password, Address, Phone));
+                if(!result.IsSuccess) return Results.BadRequest(result);
                 return Results.Created(result.SuccessMessage, result);
             })
             .WithTags("Users")
